@@ -1,46 +1,85 @@
 # Student Academic Performance Prediction System
-**Verveox Technologies — AI/ML Trainee Practical Assessment**
+
+This repository contains an end-to-end machine learning solution that predicts whether a student is likely to pass or fail using academic and study-related features. It was developed as part of the **Verveox Technologies AI/ML Trainee Hiring Assessment**.
 
 ## 1. Project Overview
-This project builds an end-to-end binary classification machine learning solution to predict whether a student is likely to **Pass** or **Fail** based on academic and study-related features[cite: 1, 2]. The primary objective is to provide an early-warning indicator system to help educators identify students who may need additional academic support[cite: 2].
+The primary objective of this project is to explore whether study-related and academic indicators can help identify students who may need additional academic support. The system uses a binary classification approach (Logistic Regression and K-Nearest Neighbors) to predict a `final_result` of **Pass** or **Fail** based on 5 key features: `study_hours`, `attendance`, `previous_score`, `assignments_completed`, and `sleep_hours`.
+
 
 ---
 
 ## 2. Project Folder Structure
+The repository is structured as follows to clearly separate data, code, models, and documentation:
+
 ```text
 student-performance-prediction/
 │
 ├── data/
-│   ├── StudentPerformanceFactors.csv       # Raw Kaggle dataset
-│   └── student_performance_cleaned.csv     # Cleaned dataset (6,600 rows)
+│   ├── StudentPerformanceFactors.csv       # Raw dataset (downloaded/provided)
+│   └── cleaned_StudentPerformanceFactors.csv     # Cleaned dataset ready for modeling
 │
 ├── notebooks/
-│   └── analysis.ipynb                      # Complete EDA & model training Jupyter notebook
+│   └── analysis.ipynb                      # Complete EDA, preprocessing & model training notebook
 │
 ├── models/
-│   └── model_pipeline.joblib               # Serialized preprocessing & Logistic Regression pipeline
+│   └── model_pipeline.joblib               # Serialized preprocessing & classification pipeline
 │
 ├── app.py                                  # Interactive Streamlit prediction web application
 ├── requirements.txt                        # Python package dependencies
-├── README.md                               # Project documentation
-└── report.pdf (or report.md)               # Formal project evaluation report
-3. Installation & Setup Instructions
-Clone or Download the Repository:
+├── README.md                               # Project documentation, setup, and execution steps
+└── report.pdf                              # Formal project evaluation report covering metrics & limitations
+```
 
-Bash
+---
+
+## 3. Prerequisites
+To run this project, you need the following installed on your system:
+- **Python 3.11+**
+- **pip** (Python package installer)
+
+The core libraries used include:
+- `pandas`
+- `numpy`
+- `scikit-learn`
+- `matplotlib`
+- `seaborn`
+- `streamlit`
+
+---
+
+## 4. Installation & Setup Instructions
+Follow these exact steps to set up the environment and run the project:
+
+### Step 1: Clone or Download the Repository
+Navigate to your desired directory and open your terminal:
+```bash
 cd student-performance-prediction
-Install Required Dependencies:
+```
 
-Bash
+### Step 2: Install Required Dependencies
+Install all necessary Python packages using the provided `requirements.txt` file:
+```bash
 pip install -r requirements.txt
-Run the Jupyter Notebook (Data Exploration, EDA & Model Training):
+```
 
-Bash
+---
+
+## 5. Execution Steps
+
+### A. Run the Data Analysis and Model Training
+To view the Exploratory Data Analysis (EDA), data cleaning, model training, and evaluation workflows, launch the Jupyter Notebook:
+```bash
 jupyter notebook notebooks/analysis.ipynb
-(Run all cells sequentially to regenerate cleaned data, plots, models, and evaluation tables).
+```
 
-Run the Streamlit Prediction Interface:
+**Instructions:**
+Run all cells sequentially from top to bottom. This will regenerate the cleaned dataset in the `data/` folder, display the evaluation metrics (Accuracy, Precision, Recall, F1-Score, Confusion Matrices), and save the trained model pipeline into the `models/` folder.
 
-Bash
+### B. Run the Streamlit Prediction Interface
+To launch the interactive web application and test the prediction interface:
+```bash
 streamlit run app.py
-(This opens an interactive web app in your browser at http://localhost:8501 to test student profiles).
+```
+
+**Instructions:**
+This command will open an interactive web app in your default browser (usually at http://localhost:8501). You can input different student profiles using the sliders and numerical inputs to generate real-time Pass/Fail predictions and probability estimates.
