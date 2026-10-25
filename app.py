@@ -12,8 +12,8 @@ st.set_page_config(
 
 
 @st.cache_resource
-def load_pipeline():
-    """Load the pre-trained preprocessing and Logistic Regression pipeline once."""
+def load_saved_objects():
+    """Load the pre-trained model and scaler once."""
     possible_paths = [
         "models/model_pipeline.joblib",
         "../models/model_pipeline.joblib",
@@ -35,12 +35,12 @@ def main():
         This tool estimates whether a student is likely to **Pass** or **Fail** based on study and academic indicators so educators can offer timely academic support.
         """
     )
-    st.info(
-        "⚠️ **Disclaimer:** This is a demonstration support tool. Predictions and probabilities are statistical model estimates—not guarantees—and must never be used as the sole basis for real educational decisions."
-    )
 
     try:
-        pipeline = load_pipeline()
+        # Load dictionary and extract model & scaler
+        saved_dict = load_saved_objects()
+        model = saved_dict["model"]
+        scaler = saved_dict["scaler"]
     except FileNotFoundError as err:
         st.error(str(err))
         return
@@ -104,9 +104,13 @@ def main():
             ]
         )
 
-        pred_class = pipeline.predict(input_df)[0]
-        pred_probs = pipeline.predict_proba(input_df)[0]
-        classes = list(pipeline.classes_)
+        # 1. Scale the input data using the saved scaler
+        input_scaled = scaler.transform(input_df)
+
+        # 2. Predict using the scaled data and the saved model
+        pred_class = model.predict(input_scaled)[0]
+        pred_probs = model.predict_proba(input_scaled)[0]
+        classes = list(model.classes_)
 
         pass_prob = pred_probs[classes.index("Pass")] * 100
         fail_prob = pred_probs[classes.index("Fail")] * 100
